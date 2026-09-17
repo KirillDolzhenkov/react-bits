@@ -1,10 +1,12 @@
-# react-shared-hooks
+# react-bits
 
-A small collection of reusable React hooks written in TypeScript.
+A small kit of reusable React pieces written in TypeScript: hooks, UI, and helpers.
 
 Stack: React 19, Vite, Vitest.
 
-Hooks live in `src/shared/hooks`.
+- hooks — `src/shared/hooks`
+- ui — `src/shared/ui`
+- lib — `src/shared/lib`
 
 ```bash
 pnpm install
