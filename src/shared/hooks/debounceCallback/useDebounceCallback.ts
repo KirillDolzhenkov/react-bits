@@ -23,7 +23,7 @@ import type { DebouncedState } from './useDebounceCallback.types';
  *
  * // Calls will be delayed by 500 ms
  * debouncedSearch('react');
- * debouncedSearch('react hook'); // previous call will be cancelled
+ * debouncedSearch('react hook'); // previous call will be canceled
  *
  * if (debouncedSearch.isPending()) {
  *   console.log('Request has not been sent yet...');

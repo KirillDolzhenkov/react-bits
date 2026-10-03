@@ -72,6 +72,21 @@ describe('useDebounceCallback', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
+  it('flush after cancel still invokes with the last args', () => {
+    const callback = vi.fn();
+    const { result } = renderHook(() => useDebounceCallback(callback, 300));
+
+    act(() => {
+      result.current('a');
+      result.current.cancel();
+      result.current.flush();
+    });
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback).toHaveBeenCalledWith('a');
+    expect(result.current.isPending()).toBe(false);
+  });
+
   it('flush runs the pending call immediately', () => {
     const callback = vi.fn();
     const { result } = renderHook(() => useDebounceCallback(callback, 300));

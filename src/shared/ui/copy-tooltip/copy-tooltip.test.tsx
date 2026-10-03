@@ -46,7 +46,24 @@ describe('CopyTooltip', () => {
       fireEvent.click(screen.getByRole('button'));
     });
 
-    expect(screen.getByText('Copied')).toBeTruthy();
+    expect(screen.getByText('Copied'));
+  });
+
+  it('shows a custom message when provided', async () => {
+    mockedCopy.mockResolvedValue(true);
+
+    render(
+      <CopyTooltip text="sku-1" message="Скопировано">
+        <button type="button">sku</button>
+      </CopyTooltip>,
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button'));
+    });
+
+    expect(screen.getByText('Скопировано'));
+    expect(screen.queryByText('Copied')).toBeNull();
   });
 
   it('does not show the tooltip when copy fails', async () => {

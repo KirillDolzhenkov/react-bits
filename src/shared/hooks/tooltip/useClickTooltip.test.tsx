@@ -143,19 +143,20 @@ describe('useClickTooltip', () => {
   });
 
   it('clears the hide timer on unmount', () => {
+    const clearSpy = vi.spyOn(globalThis, 'clearTimeout');
     const { unmount } = render(<TooltipHarness duration={500} message="Copied" />);
 
     act(() => {
       clickTrigger(10, 20);
     });
 
+    clearSpy.mockClear();
     unmount();
 
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
-
+    expect(clearSpy).toHaveBeenCalled();
     expect(document.querySelector('.click-tooltip')).toBeNull();
+
+    clearSpy.mockRestore();
   });
 
   it('keeps a stable show identity when duration does not change', () => {

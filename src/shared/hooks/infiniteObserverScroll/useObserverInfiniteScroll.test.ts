@@ -69,6 +69,22 @@ describe('useObserverInfiniteScroll', () => {
     });
   });
 
+  it('uses wrapperRef as the IntersectionObserver root', () => {
+    const trigger = document.createElement('div');
+    const wrapper = document.createElement('div');
+
+    renderHook(() =>
+      useObserverInfiniteScroll({
+        triggerRef: refOf(trigger),
+        wrapperRef: refOf(wrapper),
+        callBack: vi.fn(),
+      }),
+    );
+
+    expect(observe).toHaveBeenCalledWith(trigger);
+    expect(lastOptions?.root).toBe(wrapper);
+  });
+
   it('calls callback when the trigger intersects', async () => {
     const callBack = vi.fn();
     const trigger = document.createElement('div');

@@ -3,6 +3,16 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import useInfiniteScroll from './useInfiniteScroll';
 
+const originalScrollHeight = Object.getOwnPropertyDescriptor(
+  document.documentElement,
+  'scrollHeight',
+);
+const originalScrollTop = Object.getOwnPropertyDescriptor(
+  document.documentElement,
+  'scrollTop',
+);
+const originalInnerHeight = Object.getOwnPropertyDescriptor(window, 'innerHeight');
+
 function mockScrollMetrics(scrollHeight: number, scrollTop: number, innerHeight: number) {
   Object.defineProperty(document.documentElement, 'scrollHeight', {
     configurable: true,
@@ -18,8 +28,29 @@ function mockScrollMetrics(scrollHeight: number, scrollTop: number, innerHeight:
   });
 }
 
+function restoreScrollMetrics() {
+  if (originalScrollHeight) {
+    Object.defineProperty(document.documentElement, 'scrollHeight', originalScrollHeight);
+  } else {
+    delete (document.documentElement as { scrollHeight?: number }).scrollHeight;
+  }
+
+  if (originalScrollTop) {
+    Object.defineProperty(document.documentElement, 'scrollTop', originalScrollTop);
+  } else {
+    delete (document.documentElement as { scrollTop?: number }).scrollTop;
+  }
+
+  if (originalInnerHeight) {
+    Object.defineProperty(window, 'innerHeight', originalInnerHeight);
+  } else {
+    delete (window as { innerHeight?: number }).innerHeight;
+  }
+}
+
 describe('useInfiniteScroll', () => {
   afterEach(() => {
+    restoreScrollMetrics();
     vi.restoreAllMocks();
   });
 
