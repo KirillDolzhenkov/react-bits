@@ -1,8 +1,10 @@
+import type { MouseEvent, ReactElement } from 'react';
+
 export interface CopyTooltipProps {
-  children: React.ReactElement<{
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void
-  }>
-  duration?: number
-  message?: string
-  text: string
+  children: ReactElement<{
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
+  }>;
+  duration?: number;
+  message?: string;
+  text: string;
 }

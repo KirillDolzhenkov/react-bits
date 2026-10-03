@@ -1,4 +1,4 @@
 export type UseResizeCallback = (
-    entry: ResizeObserverEntry,
-    observer: ResizeObserver,
+  entry: ResizeObserverEntry,
+  observer: ResizeObserver,
 ) => void;

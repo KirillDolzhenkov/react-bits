@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
 
-import type { IUseObserverInfiniteScroll } from './useObserverInfiniteScroll.types.ts'
+import type { UseObserverInfiniteScrollOptions } from './useObserverInfiniteScroll.types';
 
 /**
  * Custom hook for implementing infinite scroll using the Intersection Observer API.
  *
- * @param {IUseObserverInfiniteScroll} props - An object containing configuration options for the observer.
+ * @param {UseObserverInfiniteScrollOptions} props - An object containing configuration options for the observer.
  * @param {Function} [props.callBack] - The function to be called when the observed element enters the viewport or root
  *   element.
  * @param {React.RefObject<HTMLDivElement>} props.triggerRef - The element that triggers the callback when it
@@ -37,15 +37,13 @@ import type { IUseObserverInfiniteScroll } from './useObserverInfiniteScroll.typ
  *   );
  * };
  */
-
-const useObserverInfiniteScroll = <
-  T extends HTMLElement>(
-    props: IUseObserverInfiniteScroll<T>,
-  ) => {
+const useObserverInfiniteScroll = <T extends HTMLElement>(
+  props: UseObserverInfiniteScrollOptions<T>,
+) => {
   const {
     callBack,
     rootMargin = '100px 0px',
-    threshold  = 1.0,
+    threshold = 1.0,
     triggerRef,
     wrapperRef,
   } = props;
@@ -63,7 +61,7 @@ const useObserverInfiniteScroll = <
         threshold,
       };
 
-      observer.current = new IntersectionObserver(async([entry]) => {
+      observer.current = new IntersectionObserver(async ([entry]) => {
         if (entry.isIntersecting) {
           await callBack?.(entry);
         }

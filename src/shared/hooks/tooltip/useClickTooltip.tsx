@@ -1,15 +1,15 @@
-import * as React       from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import './useClickTooltip.styles.css';
 
-import { ClickTooltipEvent, UseClickTooltipTypes } from './useClickTooltip.types';
+import type { ClickTooltipEvent, UseClickTooltipOptions } from './useClickTooltip.types';
 
 /**
  * Shows a short message at the pointer via a portal to `document.body`.
  * Closes itself after `duration`.
  *
- * @param {UseClickTooltipTypes} values
+ * @param {UseClickTooltipOptions} values
  * @param {number} [values.duration=500] Visible duration in milliseconds.
  * @param {string} values.message Tooltip text.
  * @returns {{
@@ -29,15 +29,14 @@ import { ClickTooltipEvent, UseClickTooltipTypes } from './useClickTooltip.types
  *   </>
  * );
  */
-
-const useClickTooltip = (values: UseClickTooltipTypes): {
-    show: (event: ClickTooltipEvent) => void;
-    tooltip: React.ReactNode;
+const useClickTooltip = (values: UseClickTooltipOptions): {
+  show: (event: ClickTooltipEvent) => void;
+  tooltip: React.ReactNode;
 } => {
   const {
-          duration = 500,
-          message,
-        } = values;
+    duration = 500,
+    message,
+  } = values;
 
   const [open, setOpen] = React.useState(false);
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
@@ -58,7 +57,9 @@ const useClickTooltip = (values: UseClickTooltipTypes): {
       timerRef.current = setTimeout(() => {
         setOpen(false);
       }, duration);
-    }, [duration]);
+    },
+    [duration],
+  );
 
   const tooltip = open
     ? createPortal(
@@ -66,13 +67,13 @@ const useClickTooltip = (values: UseClickTooltipTypes): {
           className={'click-tooltip'}
           style={{
             left: position.x + 8,
-            top:  position.y + 8,
+            top: position.y + 8,
           }}
         >
           {message}
         </span>,
         document.body,
-    )
+      )
     : null;
 
   React.useEffect(() => {
@@ -87,7 +88,6 @@ const useClickTooltip = (values: UseClickTooltipTypes): {
     show,
     tooltip,
   };
-
 };
 
 export default useClickTooltip;

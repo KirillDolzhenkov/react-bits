@@ -1,4 +1,4 @@
-export interface UseClickTooltipTypes {
+export interface UseClickTooltipOptions {
   duration?: number;
   message: string;
 }

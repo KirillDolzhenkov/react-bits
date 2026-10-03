@@ -1,4 +1,4 @@
-export interface IUseInfiniteScroll {
+export interface UseInfiniteScrollOptions {
   callBack?: () => void;
   distanceToBottom?: number;
 }

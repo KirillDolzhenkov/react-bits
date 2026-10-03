@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
+import type { RefObject } from 'react';
 
 import type { UseResizeCallback } from './useResizeObserver.types';
 
 /**
  * Observes size changes of a DOM element using the ResizeObserver API.
  *
- * @param {Element | null | undefined} element - DOM element to observe (usually from a React ref).
- *   When `null` or `undefined`, the hook does nothing.
+ * @param {RefObject<Element | null>} ref - React ref whose `current` element is observed.
+ *   When `current` is `null`, the hook does nothing.
  * @param {UseResizeCallback} [callback] - Called when the observed element's size changes.
  *   Receives a `ResizeObserverEntry` and the `ResizeObserver` instance.
  *
@@ -14,7 +15,7 @@ import type { UseResizeCallback } from './useResizeObserver.types';
  * const MyComponent = () => {
  *   const divRef = useRef<HTMLDivElement>(null);
  *
- *   useResize(divRef.current, (entry) => {
+ *   useResizeObserver(divRef, (entry) => {
  *     const { width, height } = entry.contentRect;
  *     console.log(`Element size: ${width}px x ${height}px`);
  *   });
@@ -26,11 +27,17 @@ import type { UseResizeCallback } from './useResizeObserver.types';
  *   );
  * };
  */
-function useResize(element?: Element | null, callback?: UseResizeCallback) {
+function useResizeObserver(
+  ref: RefObject<Element | null>,
+  callback?: UseResizeCallback,
+) {
   useEffect(() => {
+    const element = ref.current;
+
     if (!element) {
       return;
     }
+
     const resizeObserver = new ResizeObserver(
       (
         entries: ResizeObserverEntry[],
@@ -39,13 +46,15 @@ function useResize(element?: Element | null, callback?: UseResizeCallback) {
         for (const entry of entries) {
           callback?.(entry, observer);
         }
-      });
+      },
+    );
+
     resizeObserver.observe(element);
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, [callback, element]);
+  }, [callback, ref]);
 }
 
-export default useResize;
+export default useResizeObserver;

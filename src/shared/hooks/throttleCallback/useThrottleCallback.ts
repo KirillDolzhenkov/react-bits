@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 
-import type { ThrottledState, ThrottleOptions } from './useThrottleCallback.types.ts';
+import type { ThrottledState, ThrottleOptions } from './useThrottleCallback.types';
 
 /**
  * Throttles a callback so it runs at most once every `delay` ms.

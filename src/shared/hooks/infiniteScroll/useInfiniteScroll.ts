@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-import { IUseInfiniteScroll } from './useInfiniteScroll.types.ts';
+import type { UseInfiniteScrollOptions } from './useInfiniteScroll.types';
 
 /**
  * Custom hook for implementing infinite scroll.
  *
- * @param {IUseInfiniteScroll} props - Configuration object for infinite scroll settings.
+ * @param {UseInfiniteScrollOptions} props - Configuration object for infinite scroll settings.
  * @param {Function} [props.callBack] - Function that will be called when the user scrolls near the bottom of the page.
  * @param {number} [props.distanceToBottom=100] - Distance in pixels from the bottom of the page at which the callBack is triggered. Defaults to 100 pixels.
  *
@@ -23,8 +23,7 @@ import { IUseInfiniteScroll } from './useInfiniteScroll.types.ts';
  *   );
  * };
  */
-
-const useInfiniteScroll = (props: IUseInfiniteScroll) => {
+const useInfiniteScroll = (props: UseInfiniteScrollOptions) => {
   const { callBack, distanceToBottom = 100 } = props;
 
   useEffect(() => {

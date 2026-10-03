@@ -1,2 +1,2 @@
 export { default } from './useObserverInfiniteScroll';
-export type { IUseObserverInfiniteScroll } from './useObserverInfiniteScroll.types';
+export type { UseObserverInfiniteScrollOptions } from './useObserverInfiniteScroll.types';

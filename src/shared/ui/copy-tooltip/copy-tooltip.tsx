@@ -1,4 +1,4 @@
-import * as React         from 'react';
+import * as React from 'react';
 
 import useClickTooltip from '../../hooks/tooltip';
 import copyToClipboard from '../../lib/copyToClipboard';
@@ -22,16 +22,16 @@ import type { CopyTooltipProps } from './copy-tooltip.props';
  */
 const CopyTooltip = (props: CopyTooltipProps) => {
   const {
-          children,
-          duration,
-          message = 'Copied',
-          text,
-        } = props;
+    children,
+    duration,
+    message = 'Copied',
+    text,
+  } = props;
 
   const {
-          show,
-          tooltip,
-        } = useClickTooltip({
+    show,
+    tooltip,
+  } = useClickTooltip({
     duration,
     message,
   });

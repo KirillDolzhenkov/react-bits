@@ -1,5 +1,6 @@
-import { useMemo, useRef, useEffect } from 'react';
-import type { DebouncedState }        from './useDebounceCallback.types.ts';
+import { useEffect, useMemo, useRef } from 'react';
+
+import type { DebouncedState } from './useDebounceCallback.types';
 
 /**
  * Custom hook for debouncing a function — delays its execution until a specified
@@ -37,8 +38,8 @@ function useDebounceCallback<Args extends any[]>(
   callback: (...args: Args) => void,
   delay = 300,
 ): DebouncedState<Args> {
-  const timerRef    = useRef<null | ReturnType<typeof setTimeout>>(null);
-  const argsRef     = useRef<Args | null>(null);
+  const timerRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+  const argsRef = useRef<Args | null>(null);
   const callbackRef = useRef(callback);
 
   callbackRef.current = callback;
