@@ -35,8 +35,7 @@ import type { ThrottledState, ThrottleOptions } from './useThrottleCallback.type
  * handleResize.cancel();
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function useThrottleCallback<Args extends any[]>(
+function useThrottleCallback<Args extends unknown[]>(
   callback: (...args: Args) => void,
   delay: number = 300,
   options: ThrottleOptions = {},

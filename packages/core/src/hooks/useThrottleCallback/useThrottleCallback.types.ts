@@ -9,7 +9,6 @@ export interface ThrottleOptions {
   trailing?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ThrottledState<Args extends any[]> = ((
+export type ThrottledState<Args extends unknown[]> = ((
   ...args: Args
 ) => void) & ThrottleControlFunctions;
