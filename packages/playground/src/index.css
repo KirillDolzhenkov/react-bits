@@ -1,0 +1,280 @@
+:root {
+  color: #1c2128;
+  background: #f6f7f9;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow: auto;
+  padding: 20px 12px;
+  border-right: 1px solid #e4e7eb;
+  background: #fff;
+}
+
+.sidebar-title {
+  margin: 0 8px 16px;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.sidebar-group {
+  margin: 16px 8px 6px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar-item {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-item[aria-current='page'] {
+  background: #eef2ff;
+  color: #243056;
+}
+
+.main {
+  padding: 28px 32px 64px;
+}
+
+.main-title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  font-weight: 650;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 560px;
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.demo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.demo-field label {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.demo-muted {
+  margin: 0;
+  color: #5c6570;
+  font-size: 14px;
+}
+
+.demo input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.demo button {
+  padding: 8px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.demo input[type='range'] {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: #3d4a8a;
+}
+
+.demo-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  border: 1px solid #d7dbe0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.demo-results li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.demo-results li:last-child {
+  border-bottom: 0;
+}
+
+.demo-results.is-pending {
+  opacity: 0.5;
+}
+
+.demo-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.demo-stage {
+  height: 180px;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 28% 38%, #f6d365 0 18%, transparent 42%),
+    radial-gradient(circle at 72% 62%, #fda085 0 16%, transparent 40%),
+    linear-gradient(160deg, #5b6cff, #1c2128);
+}
+
+.demo-feed {
+  max-width: 420px;
+}
+
+.demo-card {
+  min-height: 40vh;
+  padding: 16px;
+  border: 1px solid #d7dbe0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.demo-card h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.demo-card p {
+  margin: 0;
+  color: #5c6570;
+}
+
+.demo-chat {
+  height: 320px;
+  overflow: auto;
+  border: 1px solid #d7dbe0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.demo-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.demo-message span {
+  color: #5c6570;
+  font-size: 14px;
+}
+
+.demo-sentinel {
+  padding: 16px 12px;
+  color: #6b7280;
+  font-size: 13px;
+  text-align: center;
+}
+
+.demo-column {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #d7dbe0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.demo-person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 18px 12px 14px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.demo-person-name {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.demo-person-text {
+  color: #5c6570;
+  font-size: 13px;
+}
+
+.demo-column.is-narrow .demo-person-text {
+  display: none;
+}
+
+.demo-column-grip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+.demo-column-grip::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 5px;
+  width: 2px;
+  border-radius: 2px;
+  background: #d0d5dd;
+}
