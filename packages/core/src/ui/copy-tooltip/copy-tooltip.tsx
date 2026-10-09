@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import useClickTooltip from '../../hooks/tooltip';
+import useClickTooltip from '../../hooks/useClickTooltip';
 import copyToClipboard from '../../lib/copyToClipboard';
 
 import type { CopyTooltipProps } from './copy-tooltip.props';
