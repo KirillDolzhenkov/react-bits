@@ -91,8 +91,6 @@ function useThrottleCallback<Args extends unknown[]>(
 
       const remaining = delay - (now - lastExecTimeRef.current);
 
-      pendingArgsRef.current = args;
-
       if (remaining <= 0 || remaining > delay) {
         clearTimer();
         lastExecTimeRef.current = now;
@@ -100,7 +98,11 @@ function useThrottleCallback<Args extends unknown[]>(
         return;
       }
 
-      if (timerRef.current == null && trailing) {
+      if (!trailing) return;
+
+      pendingArgsRef.current = args;
+
+      if (timerRef.current == null) {
         timerRef.current = setTimeout(later, remaining);
       }
     };

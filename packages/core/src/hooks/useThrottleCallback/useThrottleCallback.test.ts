@@ -150,6 +150,29 @@ describe('useThrottleCallback', () => {
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
+  it('flush does not run suppressed calls when trailing is false', () => {
+    const callback = vi.fn();
+    const { result } = renderHook(() =>
+      useThrottleCallback(callback, 200, { trailing: false }),
+    );
+
+    act(() => {
+      result.current('a');
+      result.current('b');
+      result.current.flush();
+    });
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback).toHaveBeenCalledWith('a');
+    expect(result.current.isPending()).toBe(false);
+
+    act(() => {
+      vi.advanceTimersByTime(200);
+    });
+
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
   it('cancel clears a pending trailing call', () => {
     const callback = vi.fn();
     const { result } = renderHook(() => useThrottleCallback(callback, 200));
