@@ -33,24 +33,31 @@ import type { DebouncedState } from './useDebounceCallback.types';
  * debouncedSearch.cancel(); // cancel completely
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function useDebounceCallback<Args extends any[]>(
+function useDebounceCallback<Args extends unknown[]>(
   callback: (...args: Args) => void,
   delay = 300,
 ): DebouncedState<Args> {
   const timerRef = useRef<null | ReturnType<typeof setTimeout>>(null);
   const argsRef = useRef<Args | null>(null);
   const callbackRef = useRef(callback);
+  const delayRef = useRef(delay);
 
   callbackRef.current = callback;
+  delayRef.current = delay;
+
+  const clearPending = () => {
+    if (timerRef.current != null) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    argsRef.current = null;
+  };
 
   useEffect(() => {
     return () => {
-      if (timerRef.current != null) {
-        clearTimeout(timerRef.current);
-      }
+      clearPending();
     };
-  }, [delay]);
+  }, []);
 
   return useMemo(() => {
     const debounced = (...args: Args) => {
@@ -60,6 +67,8 @@ function useDebounceCallback<Args extends any[]>(
         clearTimeout(timerRef.current);
       }
 
+      const wait = delayRef.current;
+
       timerRef.current = setTimeout(() => {
         timerRef.current = null;
         const argsToUse = argsRef.current;
@@ -68,7 +77,7 @@ function useDebounceCallback<Args extends any[]>(
         if (argsToUse != null) {
           Reflect.apply(callbackRef.current, undefined, argsToUse);
         }
-      }, delay);
+      }, wait);
     };
 
     const func = debounced as DebouncedState<Args>;
@@ -78,10 +87,7 @@ function useDebounceCallback<Args extends any[]>(
     };
 
     func.cancel = () => {
-      if (timerRef.current != null) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
+      clearPending();
     };
 
     func.flush = () => {
@@ -97,7 +103,7 @@ function useDebounceCallback<Args extends any[]>(
     };
 
     return func;
-  }, [delay]);
+  }, []);
 }
 
 export default useDebounceCallback;

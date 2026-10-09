@@ -72,7 +72,7 @@ describe('useDebounceCallback', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('flush after cancel still invokes with the last args', () => {
+  it('flush after cancel does not invoke', () => {
     const callback = vi.fn();
     const { result } = renderHook(() => useDebounceCallback(callback, 300));
 
@@ -82,8 +82,7 @@ describe('useDebounceCallback', () => {
       result.current.flush();
     });
 
-    expect(callback).toHaveBeenCalledTimes(1);
-    expect(callback).toHaveBeenCalledWith('a');
+    expect(callback).not.toHaveBeenCalled();
     expect(result.current.isPending()).toBe(false);
   });
 
@@ -125,5 +124,70 @@ describe('useDebounceCallback', () => {
 
     expect(first).not.toHaveBeenCalled();
     expect(second).toHaveBeenCalledWith('x');
+  });
+
+  it('keeps the same function when delay changes', () => {
+    const callback = vi.fn();
+    const { result, rerender } = renderHook(
+      ({ delay }) => useDebounceCallback(callback, delay),
+      { initialProps: { delay: 300 } },
+    );
+
+    const first = result.current;
+    rerender({ delay: 1000 });
+
+    expect(result.current).toBe(first);
+  });
+
+  it('finishes a pending call with the delay it was scheduled with', () => {
+    const callback = vi.fn();
+    const { result, rerender } = renderHook(
+      ({ delay }) => useDebounceCallback(callback, delay),
+      { initialProps: { delay: 300 } },
+    );
+
+    act(() => {
+      result.current('a');
+    });
+
+    rerender({ delay: 1000 });
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback).toHaveBeenCalledWith('a');
+
+    act(() => {
+      result.current('b');
+      vi.advanceTimersByTime(300);
+    });
+
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      vi.advanceTimersByTime(700);
+    });
+
+    expect(callback).toHaveBeenCalledTimes(2);
+    expect(callback).toHaveBeenLastCalledWith('b');
+  });
+
+  it('does not invoke after unmount', () => {
+    const callback = vi.fn();
+    const { result, unmount } = renderHook(() => useDebounceCallback(callback, 300));
+
+    act(() => {
+      result.current('a');
+    });
+
+    unmount();
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    expect(callback).not.toHaveBeenCalled();
   });
 });
